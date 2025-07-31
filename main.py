@@ -7,9 +7,9 @@ import os
 
 # Configuration: Hardcoded coordinates for three text entries
 TEXT_CONFIG = [
-    {'label': "Igra", "placeholder": "HNK Hajduk - NK Osijek", "x": 306, "y": 626.5},
-    {'label': "Datum", "placeholder": "22.05.2025 .", "x": 306, "y": 612.5},
-    {'label': "Plate", "placeholder": "ŠI 1313 MP .", "x": 306, "y": 584.5}
+    {'label': "Igra", "placeholder": "HNK Hajduk - PFC Zire", "x": 373.5, "y": 593},
+    {'label': "Datum", "placeholder": "31.07.2025.", "x": 396, "y": 616.5},
+    {'label': "Plate", "placeholder": "ŠI  988 JK .", "x": 113, "y": 616.5}
 ]
 
 # Streamlit app title
@@ -24,7 +24,7 @@ def add_text_at_coordinates(pdf_path, text_configs):
         # Create a temporary PDF with the text, using page size 8.26 x 11.69 inches
         text_buffer = io.BytesIO()
         c = canvas.Canvas(text_buffer, pagesize=(594.72, 840.88))  # 8.26 * 72, 11.69 * 72
-        c.setFont("Helvetica-Bold", 12)
+        c.setFont("Helvetica-Bold", 20)
         c.setFillColorRGB(0, 0, 0)  # Black text
 
         # Add each text entry at its specified coordinates
@@ -56,11 +56,11 @@ def add_text_at_coordinates(pdf_path, text_configs):
         return output
 
 # Path to the static PDF
-pdf_path = "main.pdf"
+pdf_path = "main-blank.pdf"
 
 # Check if the PDF exists
 if not os.path.exists(pdf_path):
-    st.error("main.pdf not found in the app directory. Please ensure it’s included in the repository.")
+    st.error("main-blank.pdf not found in the app directory. Please ensure it’s included in the repository.")
 else:
     # Get text values for each entry
     # st.subheader("Enter Text Values")
@@ -78,7 +78,7 @@ else:
         plate_text = TEXT_CONFIG[2]["text"]
         plate_parts = plate_text.split()
         prefix = " ".join(plate_parts[:3])
-        filename = f"TUNNEL_{prefix}.pdf"
+        filename = f"PARKING_PROPUSNICE_CROATEL-{prefix}.pdf"
         st.success("Napravljeno PDF!")
         st.download_button(
             label="Preuzmi PDF",
