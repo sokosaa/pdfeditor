@@ -56,11 +56,11 @@ def add_text_at_coordinates(pdf_path, text_configs):
         return output
 
 # Path to the static PDF
-pdf_path = "main-blank.pdf"
+pdf_path = "main.pdf"
 
 # Check if the PDF exists
 if not os.path.exists(pdf_path):
-    st.error("main-blank.pdf not found in the app directory. Please ensure it’s included in the repository.")
+    st.error("main.pdf not found in the app directory. Please ensure it’s included in the repository.")
 else:
     # Get text values for each entry
     # st.subheader("Enter Text Values")
