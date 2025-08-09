@@ -55,15 +55,16 @@ def add_text_at_coordinates(pdf_path, text_configs):
         output.seek(0)
         return output
 
-# Path to the static PDF
-pdf_path = "main.pdf"
+# Radio button to select PDF file
+pdf_options = ["propusnica.pdf", "b2.pdf"]
+selected_pdf = st.radio("Odaberi PDF predložak:", pdf_options, index=0)
+pdf_path = selected_pdf
 
-# Check if the PDF exists
+# Check if the selected PDF exists
 if not os.path.exists(pdf_path):
-    st.error("main.pdf not found in the app directory. Please ensure it’s included in the repository.")
+    st.error(f"{pdf_path} not found in the app directory. Please ensure it’s included in the repository.")
 else:
     # Get text values for each entry
-    # st.subheader("Enter Text Values")
     all_text_entered = True
     for config in TEXT_CONFIG:
         placeholder = config["placeholder"]
@@ -74,11 +75,12 @@ else:
 
     if all_text_entered and st.button("Napravi PDF"):
         modified_pdf = add_text_at_coordinates(pdf_path, TEXT_CONFIG)
-        # Generate filename from the third text input (plate)
-        plate_text = TEXT_CONFIG[2]["text"]
-        plate_parts = plate_text.split()
-        prefix = " ".join(plate_parts[:3])
-        filename = f"PARKING_PROPUSNICE_CROATEL-{prefix}.pdf"
+        # Generate filename including PDF type, game, date, and license plate
+        pdf_type = "PROP" if selected_pdf == "propusnica.pdf" else "B2"
+        game_text = TEXT_CONFIG[0]["text"].replace(" ", "_")
+        date_text = TEXT_CONFIG[1]["text"].replace(".", "_")
+        plate_text = TEXT_CONFIG[2]["text"].replace(" ", "_")
+        filename = f"PARKING_{pdf_type}_{game_text}_{date_text}_{plate_text}.pdf"
         st.success("Napravljeno PDF!")
         st.download_button(
             label="Preuzmi PDF",
