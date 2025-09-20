@@ -56,7 +56,7 @@ def add_text_at_coordinates(pdf_path, text_configs):
         return output
 
 # Radio button to select PDF file
-pdf_options = ["propusnica.pdf", "b2.pdf"]
+pdf_options = ["propusnica.pdf", "b2.pdf", "c.pdf"]
 selected_pdf = st.radio("Odaberi PDF predložak:", pdf_options, index=0)
 pdf_path = selected_pdf
 
@@ -76,7 +76,12 @@ else:
     if all_text_entered and st.button("Napravi PDF"):
         modified_pdf = add_text_at_coordinates(pdf_path, TEXT_CONFIG)
         # Generate filename including PDF type, game, date, and license plate
-        pdf_type = "PROP" if selected_pdf == "propusnica.pdf" else "B2"
+        if selected_pdf == "propusnica.pdf":
+            pdf_type = "PROP"
+        elif selected_pdf == "b2.pdf":
+            pdf_type = "B2"
+        else:  # c.pdf
+            pdf_type = "PROP"  # Using same values as propusnica
         game_text = TEXT_CONFIG[0]["text"].replace(" ", "_")
         date_text = TEXT_CONFIG[1]["text"].replace(".", "_")
         plate_text = TEXT_CONFIG[2]["text"].replace(" ", "_")
