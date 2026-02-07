@@ -7,9 +7,10 @@ import os
 
 # Configuration: Hardcoded coordinates for three text entries
 TEXT_CONFIG = [
-    {'label': "Igra", "placeholder": "HNK Hajduk - PFC Zire", "x": 373.5, "y": 593},
-    {'label': "Datum", "placeholder": "31.07.2025.", "x": 396, "y": 616.5},
-    {'label': "Plate", "placeholder": "ŠI  988 JK .", "x": 113, "y": 616.5}
+    {'label': "Igra", "placeholder": "HNK Hajduk - PFC Zire", "x": 410, "y": 593},
+    {'label': "Igra Drugi Red", "placeholder": "", "x": 410, "y": 569.5},
+    {'label': "Datum", "placeholder": "31.07.2025.", "x": 410, "y": 616.5},
+    {'label': "Plate", "placeholder": "ŠI  988 JK .", "x": 125, "y": 616.5}
 ]
 
 # Streamlit app title
@@ -33,7 +34,7 @@ def add_text_at_coordinates(pdf_path, text_configs):
             x = config["x"]
             y = config["y"]
             # Calculate text width to center it
-            text_width = c.stringWidth(text, "Helvetica-Bold", 12)
+            text_width = c.stringWidth(text, "Helvetica-Bold", 20)
             centered_x = x - (text_width / 2)
             c.drawString(centered_x, y, text)
 
@@ -70,7 +71,7 @@ else:
         placeholder = config["placeholder"]
         label = config['label']
         config["text"] = st.text_input(f"Stavi text za red {label}", placeholder, key=label)
-        if not config["text"]:
+        if not config["text"] and label != "Igra Drugi Red":
             all_text_entered = False
 
     if all_text_entered and st.button("Napravi PDF"):
@@ -83,8 +84,8 @@ else:
         else:  # c.pdf
             pdf_type = "PROP"  # Using same values as propusnica
         game_text = TEXT_CONFIG[0]["text"].replace(" ", "_")
-        date_text = TEXT_CONFIG[1]["text"].replace(".", "_")
-        plate_text = TEXT_CONFIG[2]["text"].replace(" ", "_")
+        date_text = TEXT_CONFIG[2]["text"].replace(".", "_")
+        plate_text = TEXT_CONFIG[3]["text"].replace(" ", "_")
         filename = f"PARKING_{pdf_type}_{game_text}_{date_text}_{plate_text}.pdf"
         st.success("Napravljeno PDF!")
         st.download_button(
