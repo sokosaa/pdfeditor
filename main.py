@@ -56,10 +56,15 @@ def add_text_at_coordinates(pdf_path, text_configs):
         output.seek(0)
         return output
 
+# Radio button to select season/year
+year_options = ["2026/27", "2025/26"]
+selected_year = st.radio("Odaberi sezonu:", year_options, index=0)
+
 # Radio button to select PDF file
 pdf_options = ["propusnica.pdf", "b2.pdf", "c.pdf"]
 selected_pdf = st.radio("Odaberi PDF predložak:", pdf_options, index=0)
-pdf_path = selected_pdf
+year_suffix = "_2026_27" if selected_year == "2026/27" else "_2025_26"
+pdf_path = os.path.join("pdfs", selected_pdf.replace(".pdf", f"{year_suffix}.pdf"))
 
 # Check if the selected PDF exists
 if not os.path.exists(pdf_path):
